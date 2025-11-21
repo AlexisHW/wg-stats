@@ -17,8 +17,8 @@ WG_CONTAINER="$WG_CONTAINER" WG_INTERFACE="$WG_INTERFACE" WG_DATA_DIR="$WG_DATA_
   /usr/bin/env python3 "$PYTHON_SCRIPT" > email_report.txt
 
 # Email settings
-EMAIL_TO="notification@ipnets.ru"
-EMAIL_FROM="de@ipnets.ru" # (should match msmtp config)
+EMAIL_TO="recipient@email.com"
+EMAIL_FROM="sender@domain.com" # (should match msmtp config)
 EMAIL_SUBJECT="WireGuard $PERIOD Traffic Report for $WG_CONTAINER"
 
 # Prepare email headers and body
