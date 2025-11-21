@@ -1,0 +1,10 @@
+[Unit]
+Description=Run WireGuard Traffic Monitor every 24 hours
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=24h
+Unit=wg-monitor.service
+
+[Install]
+WantedBy=timers.target

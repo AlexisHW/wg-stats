@@ -1,0 +1,14 @@
+[Unit]
+Description=WireGuard Traffic Monitor Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /var/opt/wg_monitor.sh
+User=root
+# Optionally set environment variables here instead of in the script:
+# Environment=WG_CONTAINER=wireguard WG_INTERFACE=wg0 WG_DATA_DIR=/var/lib/wg-monitor
+
+[Install]
+WantedBy=multi-user.target
