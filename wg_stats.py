@@ -23,21 +23,29 @@ def run_wg_show():
         sys.exit(1)
 
 def parse_wg_dump(lines):
-    peers = {}
-    # Skip first line if it's the interface header (optional)
+    peers = []
     for line in lines:
         parts = line.split('\t')
         if len(parts) < 7:
             continue
         allowed_ips = parts[3]
+        ip_only = allowed_ips.split('/')[0]
         try:
             transfer_rx = int(parts[5])
             transfer_tx = int(parts[6])
         except ValueError:
             transfer_rx = 0
             transfer_tx = 0
-        peers[allowed_ips] = {"rx": transfer_rx, "tx": transfer_tx}
-    return peers
+        peers.append((ip_only, {"rx": transfer_rx, "tx": transfer_tx}))
+
+    # Sort by last octet only
+    def last_octet_key(ip_tuple):
+        ip_str = ip_tuple[0]
+        last_octet = int(ip_str.split('.')[-1])
+        return last_octet
+
+    peers.sort(key=last_octet_key)
+    return dict(peers)
 
 def human_readable_bytes(num):
     for unit in ['B','KB','MB','GB','TB']:

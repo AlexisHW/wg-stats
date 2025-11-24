@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /var/opt/wg-stats
+
 WG_CONTAINER="${WG_CONTAINER:-wg-easy}"
 WG_INTERFACE="${WG_INTERFACE:-wg0}"
 WG_DATA_DIR="${WG_DATA_DIR:-/var/opt/wg-stats}"
@@ -14,7 +16,7 @@ fi
 
 # Run the Python script with environment variables
 WG_CONTAINER="$WG_CONTAINER" WG_INTERFACE="$WG_INTERFACE" WG_DATA_DIR="$WG_DATA_DIR" PERIOD="$PERIOD" \
-  /usr/bin/env python3 "$PYTHON_SCRIPT" > email_report.txt
+  /usr/bin/env python3 "$PYTHON_SCRIPT" > ./email_report.txt 2> ./error.log
 
 # Email settings
 EMAIL_TO="recipient@email.com"
@@ -27,5 +29,5 @@ EMAIL_SUBJECT="WireGuard $PERIOD Traffic Report for $WG_CONTAINER"
   echo "To: $EMAIL_TO"
   echo "Subject: $EMAIL_SUBJECT"
   echo
-  cat email_report.txt
+  cat ./email_report.txt
 } | msmtp --from="$EMAIL_FROM" -- "$EMAIL_TO"
